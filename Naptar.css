@@ -1,0 +1,14 @@
+/* 
+    Created on : 2022. febr. 22., 18:22:46
+    Author     : Sanyi
+*/
+#sheet {
+    margin: 0 auto;
+    width: 90%;
+}
+
+table#havinaptar, th, td {
+    border: 1px solid;
+    border-collapse: collapse;
+    text-align: center;
+}

@@ -1,23 +1,30 @@
 <?php
 require_once './Naptar.php';
 $naptar = new Naptar();
+$year = 2022;
+$month = 2;
+$datum = strtotime("$year-$month-1");
 ?>
 <!DOCTYPE html>
 <!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
+
 -->
 <html>
     <head>
         <meta charset="UTF-8">
         <title>Naptár</title>
+        <link rel="stylesheet" href="Naptar.css" />
     </head>
     <body>
-        <h1>Naptár</h1>
-        <?php
-            $naptar->havi(2022, 2)
+        <div id="sheet">
+            <h1>Naptár</h1>
+            <?php
+                $naptar->havi(2022, 2);
+                $naptar->havi(2022, 3);
+                $naptar->havi(2022, 4);
+                $naptar->havi(2022, 5);
 
-        ?>
+            ?>
+        </div>
     </body>
 </html>
