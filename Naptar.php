@@ -1,26 +1,9 @@
 <?php
 class Naptar {
-    private $styles = array('athelyezett' => 'blue','pihenonap' => 'green','unnep' => 'red','vasarnap' => 'blue',);
-    private $munkaszunetek = array(
-        array('datum' => '2022-01-01','title' => 'Új Év napja','description' => 'munkaszüneti nap (hétvége)','fizetett' => 'false','style' => 'unnep'),
-        array('datum' => '2022-03-14','title' => 'pihenőnap','description' => 'pihenő nap (4 napos hétvége)','fizetett' => 'false','style' => 'pihenonap'),
-        array('datum' => '2022-03-15','title' => 'Nemzeti ünnep','description' => 'munkaszüneti nap (4 napos hétvége)','fizetett' => 'true','style' => 'unnep'),
-        array('datum' => '2022-03-26','title' => 'munkanap','description' => 'áthelyezett munkanap (március 14. helyett)','fizetett' => 'false','style' => 'athelyezett'),
-        array('datum' => '2022-04-15','title' => 'Nagypéntek','description' => 'munkaszüneti nap (4 napos hétvége)','fizetett' => 'true','style' => 'unnep'),
-        array('datum' => '2022-04-18','title' => 'Húsvét','description' => 'munkaszüneti nap (4 napos hétvége)','fizetett' => 'true','style' => 'unnep'),
-        array('datum' => '2022-05-01','title' => 'Munka Ünnep','description' => 'munkaszüneti nap (hétvége)','fizetett' => 'false','style' => 'unnep'),
-        array('datum' => '2022-06-06','title' => 'Pünkösd','description' => 'munkaszüneti nap (3 napos hétvége)','fizetett' => 'true','style' => 'unnep'),
-        array('datum' => '2022-08-20','title' => 'Államalapítás ünnepe','description' => 'munkaszüneti nap (hétvége)','fizetett' => 'false','style' => 'unnep'),
-        array('datum' => '2022-10-15','title' => 'munkanap','description' => 'áthelyezett munkanap (október 31. helyett)','fizetett' => 'false','style' => 'athelyezett'),
-        array('datum' => '2022-10-23','title' => '56-os forradalom ünnepe','description' => 'munkaszüneti nap (hétvége)','fizetett' => 'false','style' => 'unnep'),
-        array('datum' => '2022-10-31','title' => 'pihenőnap','description' => 'pihenőnap (4 napos hétvége)','fizetett' => 'false','style' => 'pihenonap'),
-        array('datum' => '2022-11-01','title' => 'Mindenszentek','description' => 'munkaszüneti nap (4 napos hétvége)','fizetett' => 'true','style' => 'unnep'),
-        array('datum' => '2022-12-24','title' => 'Szenteste','description' => 'pihenőnap (3 napos hétvége)','fizetett' => 'false','style' => 'pihenonap'),
-        array('datum' => '2022-12-25','title' => 'Karácsony','description' => 'munkaszüneti nap (3 napos hétvége)','fizetett' => 'false','style' => 'unnep'),
-        array('datum' => '2022-12-26','title' => 'Karácsony','description' => 'munkaszüneti nap (3 napos hétvége)','fizetett' => 'true','style' => 'unnep')
-    );
     private $datum= null;
-
+    public function __construct() {
+        ;
+    }
     function havi($year,$month) {
         $day = 1;
         $this->datum=strtotime("$year-$month-1");
@@ -56,12 +39,35 @@ class Naptar {
     }
     
     private function nap() {
-        echo '<td style=\"ures\">'.date('j', $this->datum)."</td>";
+        //-- keressük a munkaszünetek között
+        global $munkaszunetek;
+        switch (intval(date('w', $this->datum))) {
+            case 0:
+                $style = "vasarnap";
+                break;
+            case 6:
+                $style = "szombat";
+                break;
+
+            default:
+                $style = "munkanap";
+                break;
+        }
+        $title = "";
+        foreach ($munkaszunetek as $row) {
+            if($this->datum == strtotime($row["datum"])){
+                $style = $row["style"];
+                $title = $row["title"];
+            }            
+        }
+//        $key = array_search(date('Y-m-d', $this->datum), array_column($munkaszunetek, 'datum'));
+//        if()
+        echo '<td title="'.$title.'" class="'.$style.'">'.date('j', $this->datum)."</td>";
     }
     
     private function uresCella($db) {
         for ($index = 0; $index < $db; $index++) {
-            echo '<td style="ures">&nbsp;</td>';
+            echo '<td class="ures">&nbsp;</td>';
         }
     }
 }

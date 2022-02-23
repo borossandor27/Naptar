@@ -4,6 +4,12 @@ $naptar = new Naptar();
 $year = 2022;
 $month = 2;
 $datum = strtotime("$year-$month-1");
+require_once './Database.php';
+$db = new Database();
+$munkaszunetek = $db->Munkaszunetek($year);
+echo '<pre>';
+//print_r($munkaszunetek);
+echo '</pre>';
 ?>
 <!DOCTYPE html>
 <!--
@@ -18,6 +24,7 @@ $datum = strtotime("$year-$month-1");
     <body>
         <div id="sheet">
             <h1>Naptár</h1>
+            <span title=""></span>
             <?php
                 $naptar->havi(2022, 2);
                 $naptar->havi(2022, 3);
